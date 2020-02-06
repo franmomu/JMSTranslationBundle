@@ -2,6 +2,7 @@ imports:
     - { resource: framework.yml }
     - { resource: twig.yml }
     - { resource: bundle.yml }
+    - { resource: sensio_framework_extra.yml }
 
 services:
     logger:
