@@ -22,10 +22,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BaseTestCase extends WebTestCase
 {
-    protected static function createKernel(array $options = array())
+    protected static function getKernelClass()
     {
-        return new AppKernel(
-            isset($options['config']) ? $options['config'] : 'default.yml'
-        );
+        return AppKernel::class;
     }
 }

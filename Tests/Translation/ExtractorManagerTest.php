@@ -27,12 +27,11 @@ use JMS\TranslationBundle\Translation\ExtractorManager;
 
 class ExtractorManagerTest extends BaseTestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage There is no extractor with alias "foo". Available extractors: # none #
-     */
     public function testSetEnabledCustomExtractorsThrowsExceptionWhenAliasInvalid()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('There is no extractor with alias "foo". Available extractors: # none #');
+
         $manager = $this->getManager();
         $manager->setEnabledExtractors(array('foo' => true));
     }

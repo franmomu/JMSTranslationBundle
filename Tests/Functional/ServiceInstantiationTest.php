@@ -9,7 +9,7 @@ namespace JMS\TranslationBundle\Tests\Functional;
  */
 class ServiceInstantiationTest extends BaseTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         static::createClient();
     }

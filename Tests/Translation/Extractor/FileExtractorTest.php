@@ -21,6 +21,7 @@ namespace JMS\TranslationBundle\Tests\Translation\Extractor;
 use JMS\TranslationBundle\Translation\Extractor\File\TwigFileExtractor;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
 use JMS\TranslationBundle\Twig\TranslationExtension;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use Doctrine\Common\Annotations\DocParser;
 use JMS\TranslationBundle\Translation\Extractor\File\FormExtractor;
@@ -38,7 +39,7 @@ use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Bridge\Twig\Extension\TranslationExtension as SymfonyTranslationExtension;
 use JMS\TranslationBundle\Translation\Extractor\FileExtractor;
 
-class FileExtractorTest extends \PHPUnit_Framework_TestCase
+class FileExtractorTest extends TestCase
 {
     public function testExtractWithSimpleTestFixtures()
     {

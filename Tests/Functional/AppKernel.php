@@ -19,58 +19,60 @@
 namespace JMS\TranslationBundle\Tests\Functional;
 
 use JMS\TranslationBundle\Exception\RuntimeException;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Routing\RouteCollectionBuilder;
 
 class AppKernel extends Kernel
 {
-    private $config;
+    use MicroKernelTrait;
 
-    public function __construct($config)
+    public function __construct()
     {
-        parent::__construct('test', true);
-
-        $fs = new Filesystem();
-        if (!$fs->isAbsolutePath($config)) {
-            $config = __DIR__.'/config/'.$config;
-        }
-
-        if (!file_exists($config)) {
-            throw new RuntimeException(sprintf('The config file "%s" does not exist.', $config));
-        }
-
-        $this->config = $config;
+        parent::__construct('dev', true);
     }
 
     public function registerBundles()
     {
         return array(
-            new \JMS\TranslationBundle\Tests\Functional\Fixture\TestBundle\TestBundle(),
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
-            new \JMS\TranslationBundle\JMSTranslationBundle(),
             new \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new \JMS\TranslationBundle\JMSTranslationBundle(),
+            new \JMS\TranslationBundle\Tests\Functional\Fixture\TestBundle\TestBundle(),
         );
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function getProjectDir()
     {
-        $loader->load($this->config);
+        return __DIR__;
     }
 
-    public function getCacheDir()
+    protected function configureRoutes(RouteCollectionBuilder $routes)
     {
-        return sys_get_temp_dir().'/JMSTranslationBundle';
+        $routes->import($this->getProjectDir().'/config/routing.yml');
     }
 
-    public function serialize()
+    protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader)
     {
-        return $this->config;
+        $loader->load($this->getProjectDir().'/config/default.yml');
     }
 
-    public function unserialize($config)
+    public function getCacheDir(): string
     {
-        $this->__construct($config);
+        return $this->getBaseDir().'cache';
+    }
+
+    public function getLogDir(): string
+    {
+        return $this->getBaseDir().'log';
+    }
+
+    private function getBaseDir(): string
+    {
+        return sys_get_temp_dir().'/jms-translation-bundle/var/';
     }
 }

@@ -56,11 +56,10 @@ class MessageCollectionTest extends BaseTestCase
         $this->assertSame($message, $domain->get('foo'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetThrowsExceptionWhenMessageDoesNotExist()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $catalogue = new MessageCollection();
         $catalogue->get('foo');
     }
@@ -132,12 +131,11 @@ class MessageCollectionTest extends BaseTestCase
         $this->assertEquals(array('a', 'b'), array_keys($col->all()));
     }
 
-    /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage The message 'a' exists with two different descs: 'a' in foo on line 1, and 'b' in bar on line 2
-     */
     public function testAddChecksConsistency()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('The message \'a\' exists with two different descs: \'a\' in foo on line 1, and \'b\' in bar on line 2');
+
         $col = new MessageCollection();
 
         $msg = new Message('a');
@@ -152,6 +150,9 @@ class MessageCollectionTest extends BaseTestCase
         $col->add($msg2);
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testAddChecksConsistencyButAllowsEmptyDescs()
     {
         $col = new MessageCollection();
@@ -196,12 +197,11 @@ class MessageCollectionTest extends BaseTestCase
         $col->add($msg2);
     }
 
-    /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage The message 'a' exists with two different descs: 'a' in foo on line 1, and 'b' in bar on line 2
-     */
     public function testSetChecksConsistency()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('The message \'a\' exists with two different descs: \'a\' in foo on line 1, and \'b\' in bar on line 2');
+
         $col = new MessageCollection();
 
         $msg = new Message('a');
@@ -216,6 +216,9 @@ class MessageCollectionTest extends BaseTestCase
         $col->set($msg2);
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testSetChecksConsistencyButAllowsEmptyDescs()
     {
         $col = new MessageCollection();
