@@ -113,12 +113,7 @@ class FileExtractorTest extends TestCase
         ));
         $docParser->setIgnoreNotImportedAnnotations(true);
 
-        //use correct factory class depending on whether using Symfony 2 or 3
-        if (class_exists('Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory')) {
-            $metadataFactoryClass = 'Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory';
-        } else {
-            $metadataFactoryClass = 'Symfony\Component\Validator\Mapping\ClassMetadataFactory';
-        }
+        $metadataFactoryClass = 'Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory';
 
         $factory = new $metadataFactoryClass(new AnnotationLoader(new AnnotationReader()));
 

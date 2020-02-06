@@ -40,11 +40,7 @@ class MountDumpersPass implements CompilerPassInterface
                 throw new RuntimeException(sprintf('The "alias" attribute must be set for tag "translation.dumper" for service "%s".', $id));
             }
 
-            if (class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
-                $def = new ChildDefinition('jms_translation.dumper.symfony_adapter');
-            } else {
-                $def = new DefinitionDecorator('jms_translation.dumper.symfony_adapter');
-            }
+            $def = new ChildDefinition('jms_translation.dumper.symfony_adapter');
             $def->addArgument(new Reference($id))->addArgument($attr[0]['alias']);
             $container->setDefinition($id = 'jms_translation.dumper.wrapped_symfony_dumper.'.($i++), $def);
 
