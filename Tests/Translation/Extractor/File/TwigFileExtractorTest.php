@@ -150,11 +150,7 @@ class TwigFileExtractorTest extends TestCase
         $env->addExtension(new SymfonyTranslationExtension($translator = new IdentityTranslator(new MessageSelector())));
         $env->addExtension(new TranslationExtension($translator, true));
         $env->addExtension(new RoutingExtension(new UrlGenerator(new RouteCollection(), new RequestContext())));
-        $env->addExtension(new FormExtension(
-            class_exists('Symfony\Bridge\Twig\Form\TwigRenderer') ?
-            new TwigRenderer(new TwigRendererEngine()) :
-            new FormRenderer(new TwigRendererEngine([], $env))
-        ));
+        $env->addExtension(new FormExtension());
 
         foreach ($env->getNodeVisitors() as $visitor) {
             if ($visitor instanceof DefaultApplyingNodeVisitor) {
