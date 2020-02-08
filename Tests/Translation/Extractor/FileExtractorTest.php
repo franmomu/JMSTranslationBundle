@@ -37,6 +37,7 @@ use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Bridge\Twig\Extension\TranslationExtension as SymfonyTranslationExtension;
 use JMS\TranslationBundle\Translation\Extractor\FileExtractor;
+use Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory;
 
 class FileExtractorTest extends \PHPUnit_Framework_TestCase
 {
@@ -109,12 +110,7 @@ class FileExtractorTest extends \PHPUnit_Framework_TestCase
         ));
         $docParser->setIgnoreNotImportedAnnotations(true);
 
-        //use correct factory class depending on whether using Symfony 2 or 3
-        if (class_exists('Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory')) {
-            $metadataFactoryClass = 'Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory';
-        } else {
-            $metadataFactoryClass = 'Symfony\Component\Validator\Mapping\ClassMetadataFactory';
-        }
+        $metadataFactoryClass = LazyLoadingMetadataFactory::class;
 
         $factory = new $metadataFactoryClass(new AnnotationLoader(new AnnotationReader()));
 

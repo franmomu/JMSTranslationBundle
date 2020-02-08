@@ -18,6 +18,8 @@
 
 namespace JMS\TranslationBundle\Twig\Node;
 
+use JMS\TranslationBundle\Twig\TranslationExtension;
+
 class Transchoice extends \Twig_Node_Expression
 {
     public function __construct(\Twig_Node_Expression_Array $arguments, $lineno)
@@ -30,7 +32,7 @@ class Transchoice extends \Twig_Node_Expression
         $compiler->raw(
             sprintf(
                 '$this->env->getExtension(\'%s\')->%s(',
-                'JMS\TranslationBundle\Twig\TranslationExtension',
+                TranslationExtension::class,
                 'transchoiceWithDefault'
             )
         );
