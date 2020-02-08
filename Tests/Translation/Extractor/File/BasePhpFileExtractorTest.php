@@ -25,8 +25,12 @@ use JMS\TranslationBundle\Translation\FileSourceFactory;
 use PhpParser\Lexer;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use PHPUnit\Framework\TestCase;
+use JMS\TranslationBundle\Annotation\Ignore;
+use JMS\TranslationBundle\Annotation\Meaning;
+use JMS\TranslationBundle\Annotation\Desc;
 
-abstract class BasePhpFileExtractorTest extends \PHPUnit_Framework_TestCase
+abstract class BasePhpFileExtractorTest extends TestCase
 {
     final protected function extract($file, FileVisitorInterface $extractor = null)
     {
@@ -61,9 +65,9 @@ abstract class BasePhpFileExtractorTest extends \PHPUnit_Framework_TestCase
     {
         $docParser = new DocParser();
         $docParser->setImports(array(
-            'desc' => 'JMS\TranslationBundle\Annotation\Desc',
-            'meaning' => 'JMS\TranslationBundle\Annotation\Meaning',
-            'ignore' => 'JMS\TranslationBundle\Annotation\Ignore',
+            'desc' => Desc::class,
+            'meaning' => Meaning::class,
+            'ignore' => Ignore::class,
         ));
         $docParser->setIgnoreNotImportedAnnotations(true);
 

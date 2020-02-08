@@ -19,9 +19,10 @@
 namespace JMS\TranslationBundle\Tests\Model;
 
 use JMS\TranslationBundle\Model\FileSource;
-use JMS\TranslationBundle\Tests\BaseTestCase;
+use PHPUnit\Framework\TestCase;
+use JMS\TranslationBundle\Model\SourceInterface;
 
-class FileSourceTest extends BaseTestCase
+class FileSourceTest extends TestCase
 {
     public function testGetPath()
     {
@@ -102,11 +103,11 @@ class FileSourceTest extends BaseTestCase
             false,
         );
 
-        $source = $this->createMock('JMS\TranslationBundle\Model\SourceInterface');
+        $source = $this->createMock(SourceInterface::class);
         $source
             ->expects($this->once())
             ->method('equals')
-            ->will($this->returnValue(false))
+            ->willReturn(false)
         ;
         $tests[] = array(
             new FileSource('foo'),

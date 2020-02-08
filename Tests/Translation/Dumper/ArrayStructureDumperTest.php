@@ -20,8 +20,10 @@ namespace JMS\TranslationBundle\Tests\Translation\Dumper;
 
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Model\MessageCatalogue;
+use PHPUnit\Framework\TestCase;
+use JMS\TranslationBundle\Translation\Dumper\ArrayStructureDumper;
 
-class ArrayStructureDumperTest extends \PHPUnit_Framework_TestCase
+class ArrayStructureDumperTest extends TestCase
 {
     public function testPathWithSubPath()
     {
@@ -40,7 +42,7 @@ class ArrayStructureDumperTest extends \PHPUnit_Framework_TestCase
                     'bar.baz' => new Message('foo.bar.baz'),
                 ),
             ))
-            ->will($this->returnValue('foo'))
+            ->willReturn('foo')
         ;
 
         $this->assertEquals('foo', $dumper->dump($catalogue, 'messages'));
@@ -48,6 +50,6 @@ class ArrayStructureDumperTest extends \PHPUnit_Framework_TestCase
 
     private function getDumper()
     {
-        return $this->getMockForAbstractClass('JMS\TranslationBundle\Translation\Dumper\ArrayStructureDumper');
+        return $this->getMockForAbstractClass(ArrayStructureDumper::class);
     }
 }

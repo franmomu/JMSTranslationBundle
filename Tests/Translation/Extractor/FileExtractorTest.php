@@ -21,6 +21,7 @@ namespace JMS\TranslationBundle\Tests\Translation\Extractor;
 use JMS\TranslationBundle\Translation\Extractor\File\TwigFileExtractor;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
 use JMS\TranslationBundle\Twig\TranslationExtension;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use Doctrine\Common\Annotations\DocParser;
 use JMS\TranslationBundle\Translation\Extractor\File\FormExtractor;
@@ -38,8 +39,11 @@ use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Bridge\Twig\Extension\TranslationExtension as SymfonyTranslationExtension;
 use JMS\TranslationBundle\Translation\Extractor\FileExtractor;
 use Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory;
+use JMS\TranslationBundle\Annotation\Ignore;
+use JMS\TranslationBundle\Annotation\Meaning;
+use JMS\TranslationBundle\Annotation\Desc;
 
-class FileExtractorTest extends \PHPUnit_Framework_TestCase
+class FileExtractorTest extends TestCase
 {
     public function testExtractWithSimpleTestFixtures()
     {
@@ -104,9 +108,9 @@ class FileExtractorTest extends \PHPUnit_Framework_TestCase
 
         $docParser = new DocParser();
         $docParser->setImports(array(
-                        'desc' => 'JMS\TranslationBundle\Annotation\Desc',
-                        'meaning' => 'JMS\TranslationBundle\Annotation\Meaning',
-                        'ignore' => 'JMS\TranslationBundle\Annotation\Ignore',
+                        'desc' => Desc::class,
+                        'meaning' => Meaning::class,
+                        'ignore' => Ignore::class,
         ));
         $docParser->setIgnoreNotImportedAnnotations(true);
 

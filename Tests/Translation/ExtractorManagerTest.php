@@ -20,26 +20,26 @@ namespace JMS\TranslationBundle\Tests\Translation;
 
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Model\MessageCatalogue;
-use JMS\TranslationBundle\Tests\BaseTestCase;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use JMS\TranslationBundle\Translation\Extractor\FileExtractor;
 use JMS\TranslationBundle\Translation\ExtractorManager;
+use JMS\TranslationBundle\Translation\ExtractorInterface;
 
-class ExtractorManagerTest extends BaseTestCase
+class ExtractorManagerTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage There is no extractor with alias "foo". Available extractors: # none #
-     */
     public function testSetEnabledCustomExtractorsThrowsExceptionWhenAliasInvalid()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('There is no extractor with alias "foo". Available extractors: # none #');
+
         $manager = $this->getManager();
         $manager->setEnabledExtractors(array('foo' => true));
     }
 
     public function testOnlySomeExtractorsEnabled()
     {
-        $foo = $this->createMock('JMS\TranslationBundle\Translation\ExtractorInterface');
+        $foo = $this->createMock(ExtractorInterface::class);
         $foo
             ->expects($this->never())
             ->method('extract')
@@ -47,11 +47,11 @@ class ExtractorManagerTest extends BaseTestCase
 
         $catalogue = new MessageCatalogue();
         $catalogue->add(new Message('foo'));
-        $bar = $this->createMock('JMS\TranslationBundle\Translation\ExtractorInterface');
+        $bar = $this->createMock(ExtractorInterface::class);
         $bar
             ->expects($this->once())
             ->method('extract')
-            ->will($this->returnValue($catalogue))
+            ->willReturn($catalogue)
         ;
 
         $manager = $this->getManager(null, array(
@@ -65,7 +65,7 @@ class ExtractorManagerTest extends BaseTestCase
 
     public function testReset()
     {
-        $foo = $this->createMock('JMS\TranslationBundle\Translation\ExtractorInterface');
+        $foo = $this->createMock(ExtractorInterface::class);
         $logger = new NullLogger();
 
         $extractor = new FileExtractor(new \Twig_Environment(new \Twig_Loader_Array(array())), $logger, array());

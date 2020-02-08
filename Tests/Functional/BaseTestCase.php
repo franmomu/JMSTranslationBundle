@@ -25,7 +25,7 @@ class BaseTestCase extends WebTestCase
     protected static function createKernel(array $options = array())
     {
         return new AppKernel(
-            isset($options['config']) ? $options['config'] : 'default.yml'
+            $options['config'] ?? 'default.yml'
         );
     }
 }
