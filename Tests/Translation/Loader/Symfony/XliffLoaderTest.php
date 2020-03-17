@@ -43,6 +43,22 @@ class XliffLoaderTest extends BaseLoaderTest
         $this->assertEquals($expected, $this->getLoader()->load($file, 'en'));
     }
 
+    public function testLoadOldFormatWithResource()
+    {
+        $expected = new MessageCatalogue('en');
+        $expected->add([
+            'foo1' => 'bar',
+            'foo2' => 'bar',
+            'foo3' => 'bar',
+            'foo4' => 'bar',
+        ]);
+
+        $file = __DIR__ . '/xliff/old_format.xml';
+        $expected->addResource(new FileResource($file));
+
+        $this->assertEquals($expected, $this->getLoader()->load(fopen($file, 'rb'), 'en'));
+    }
+
     protected function getInputFile($key)
     {
         $fileRealPath =  __DIR__ . '/../../Dumper/xliff/' . $key . '.xml';
